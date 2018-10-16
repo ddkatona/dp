@@ -17,7 +17,7 @@ rekurzio([],[],K) ->
 		false -> []
 	end;
 %rekurzio([L],[0],0) -> [[L]];
-%rekurzio([H1|[]],[H2|[]],H3) -> [];
+%rekurzio([H1|[]],[H2g|[]],H3) -> [];
 rekurzio(H, L, K) ->
 	case hd(H) < 0 of
 		true -> [];
