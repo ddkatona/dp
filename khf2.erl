@@ -1,7 +1,7 @@
 -module(khf2).
 -author('ddkatona@gmail.com').
 -vsn('2018-10-15').
--export([tipp_kod/2, lista_zsak/1, rekurzio/3]).
+-export([tipp_kod/2, lista_zsak/1, rek/3, get_lists/2]).
 %-compile(export_all).
 
 tipp_kod(Max, Tipp_S) -> 
@@ -31,6 +31,11 @@ rekurzio(H, L, K) ->
 					lists:append(R,Q)
 			end
 	end.	
+
+rek(H, L, K) ->
+	get_lists(lists:sum(L), rekurzio(H,L,K)).
+
+get_lists(Size, L) -> lists:filter(fun(X) -> lists:sum(X) =:= Size end, L).
 
 missing_elements(0, L) -> [];
 missing_elements(Max, L) -> 
