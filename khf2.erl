@@ -16,29 +16,30 @@ tipp_kod(Max, Tipp_S) ->
 lista_zsak([]) -> [];
 lista_zsak(L) -> [M || E <-lists:usort(L), M <- [count_element(L,E)]].
 
-rekurzio([],[],K) -> 
+rekurzio([],[],K,_) -> 
 	case K == 0 of
 		true -> [[]];
 		false -> []
 	end;
-rekurzio(H, L, K) ->
+rekurzio(_, _, K, M) when M < K -> [];
+rekurzio(H, L, K, M) when M >= K ->
 	case hd(H) < 0 of
 		true -> [];
 		false ->
 			case K < 0 of
 				true -> [];
 				false -> 
-					R = rekurzio([hd(H)-1|tl(H)], L, K),
-					P = rekurzio(tl(H), tl(L), K-min(hd(H), hd(L))),
-					Q = [[hd(H)|S] || S <- P], 
+					R = rekurzio([hd(H)-1|tl(H)], L, K, M),
+					P = rekurzio(tl(H), tl(L), K-min(hd(H), hd(L)), M-hd(H)),
+					Q = [[hd(H)|S] || S <- P],
 					lists:append(R,Q)
 			end
 	end.	
 
 rek(H, _, K) when K > hd(H) -> [];
-rek(H, L, K) when K == hd(H) -> perm(L,1,1);
-rek(H, L, K) when K < hd(H) ->
-	Zsak = get_lists(lists:sum(L), rekurzio(H,L,K)),
+rek(H, L, K) when K =< hd(H) ->
+	%Zsak = get_lists(lists:sum(L), rekurzio(H,L,K)),
+	Zsak = get_lists(lists:sum(L), rekurzio( H,L,K,lists:sum(L))),	
 	append_all(Zsak).
 
 append_all([]) -> [];
